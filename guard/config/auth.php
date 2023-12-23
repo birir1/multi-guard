@@ -17,10 +17,6 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
-    'admin'=> [
-        'driver'=> 'eloquent',
-        'model'=> App\Models\Admin::class,
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -46,13 +42,15 @@ return [
         ],
 
         'api' => [
-            'driver'=>'token',
-            'provider'=>'user',
+            'driver' => 'token',
+            'provider' => 'user',
             'hash' => false,
         ],
-        'admin'=> [
-            'driver'=> 'session',
-            'provider'=> 'admins',
+        
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -77,14 +75,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-        'admins'=>[
-            'driver'=>'eloquent',
-            'model'=> App\Models\Admin::class,
+        
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
     ],
 
@@ -114,10 +108,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'admins'=>[
-            'driver'=> 'eloquent',
-            'model'=> App\Models\Admin::class,
-        ]
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'admin_password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*
@@ -132,5 +128,4 @@ return [
     */
 
     'password_timeout' => 10800,
-    ]
 ];

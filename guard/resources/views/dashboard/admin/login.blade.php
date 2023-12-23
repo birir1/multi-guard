@@ -1,3 +1,5 @@
+<!-- admin_login.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +12,15 @@
 <body class="bg-info">
     <div class="container">
         <div class="row">
-            <div class="col-md-4  offset-md-4" style="margin-top: 45px:">
+            <div class="col-md-4  offset-md-4" style="margin-top: 45px;">
                 <h4>ADMIN LOGIN</h4>
-                <form action="">
+                <form action="{{ route('admin.check') }}" method="POST" autocomplete="off">
+                    @if (Session::get('fail'))
+                        <div class="alert alert-danger">
+                            {{ Session::get('fail') }} <!-- Fix typo 'failed' to 'fail' -->
+                        </div>
+                    @endif
+                    @csrf
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" class="form-control" name="email" placeholder="enter email address" value="{{ old('email') }}">

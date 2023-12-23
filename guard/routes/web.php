@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,34 +21,32 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-route::prefix('user')->name('user.')->group(function () 
-{
-    route::middleware(['guest','PreventBackHistory'])->group(function ()
-    {
+route::prefix('user')->name('user.')->group(function () {
+    route::middleware(['guest:web','PreventBackHistory'])->group(function () {
         route::view('/login', 'dashboard.user.login')->name('login');
         route::view('/register', 'dashboard.user.register')->name('register');
-        route::post('/create',[UserController::class,'create'])->name('create');
-        route::post('/check',[UserController::class,'check'])->name('check');
+        route::post('/create', [UserController::class, 'create'])->name('create');
+        route::post('/check', [UserController::class, 'check'])->name('check');
     });
 
-    route::middleware(['auth','PreventBackHistory'])->group(function ()
-    {
+    route::middleware(['auth:web','PreventBackHistory'])->group(function () {
         route::view('/home', 'dashboard.user.home')->name('home');
-        route::post('/logout',[UserController::class,'logout'])->name('logout');
+        route::post('/logout', [UserController::class, 'logout'])->name('logout');
     });
 });
 
-route::prefix('admin')->name('admin.')->group(function () 
-{
-    route::middleware(['guest:admin'])->group(function ()
-    {
-        route::view('/login', 'dashboard.admin.login')->name('login');
+// web.php or routes/web.php
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    route::middleware(['guest:admin'])->group(function () {
+        route::view('/login', 'admin_login')->name('login');
+        route::post('/check', [AdminController::class, 'check'])->name('check');
     });
 
-    route::middleware(['auth:admin'])->group(function ()
-    {
+    route::middleware(['auth:admin'])->group(function () {
         route::view('/home', 'dashboard.admin.home')->name('home');
+        route::post('/logout', [AdminController::class, 'logout'])->name('logout');
     });
 });
+
