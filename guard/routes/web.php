@@ -38,3 +38,16 @@ route::prefix('user')->name('user.')->group(function ()
         route::post('/logout',[UserController::class,'logout'])->name('logout');
     });
 });
+
+route::prefix('admin')->name('admin.')->group(function () 
+{
+    route::middleware(['guest:admin'])->group(function ()
+    {
+        route::view('/login', 'dashboard.admin.login')->name('login');
+    });
+
+    route::middleware(['auth:admin'])->group(function ()
+    {
+        route::view('/home', 'dashboard.admin.home')->name('home');
+    });
+});
